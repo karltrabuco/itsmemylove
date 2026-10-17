@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff0f4">
+<title>For Mine 💗</title>
+<style>
+:root{--pink:#d94f78;--deep:#87314e;--pale:#fff0f4;--cream:#fffaf7;--ink:#442631;--muted:#876a75}
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,'Times New Roman',serif;background:linear-gradient(135deg,#fff4f6,#fffaf4 55%,#ffe8ef);color:var(--ink);min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.topbar{position:sticky;top:0;z-index:10;background:#fffaf4eF;backdrop-filter:blur(12px);border-bottom:1px solid #f4d9e1;padding:12px 14px}
+.nav{max-width:1000px;margin:auto;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.nav button{border:1px solid #efcad5;background:#fff;border-radius:999px;padding:10px 17px;color:var(--deep);font-size:.95rem}
+.nav button.active{background:var(--pink);color:white;border-color:var(--pink)}
+main{max-width:1000px;margin:auto;padding:24px 16px 60px}
+.panel{display:none;animation:fade .35s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.hero,.section-card{background:#ffffffc9;border:1px solid #f1d6df;border-radius:28px;padding:clamp(22px,5vw,48px);box-shadow:0 18px 45px #8d3c5510}
+.hero{text-align:center;min-height:68vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.kicker{letter-spacing:.17em;text-transform:uppercase;font:600 .72rem Arial,sans-serif;color:var(--pink)}
+h1{font-size:clamp(2.4rem,8vw,5rem);line-height:1.03;color:var(--deep);margin:14px 0}
+h2{color:var(--deep);font-size:clamp(1.8rem,5vw,2.8rem);margin:10px 0 12px}
+h3{color:var(--deep);margin:8px 0}
+p{line-height:1.65}
+.subtitle{max-width:570px;color:var(--muted);font-size:1.08rem}
+.heart{font-size:2rem;animation:beat 1.6s infinite;display:inline-block}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.btn{border:0;border-radius:999px;padding:13px 22px;background:var(--pink);color:white;font-weight:700;box-shadow:0 7px 18px #d94f7830;transition:transform .2s,background .2s}
+.btn:hover{transform:translateY(-2px);background:#c83e68}
+.btn.secondary{background:white;color:var(--deep);border:1px solid #e9c5d1;box-shadow:none}
+.btn.ghost{background:#fff5f8;color:var(--deep);box-shadow:none;border:1px solid #f1d2dc}
+.actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:20px 0;min-height:54px;align-items:center}
+.no-wrap{position:relative;min-width:100px;min-height:46px}
+#noBtn{position:relative;z-index:2}
+#noBtn.runaway{position:fixed;z-index:100;margin:0;transition:left .4s cubic-bezier(.22,.75,.28,1),top .4s cubic-bezier(.22,.75,.28,1)}
+#noBtn.runaway:hover{transform:none;background:white}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:22px 0}
+label{display:block;font:600 .9rem Arial,sans-serif;color:var(--deep);margin-bottom:7px}
+input,select{width:100%;padding:13px;border-radius:12px;border:1px solid #e8c7d2;background:#fff;color:var(--ink)}
+.helper{font-size:.88rem;color:var(--muted)}
+.section-head{text-align:center;margin-bottom:25px}
+.searchbar{max-width:520px;margin:18px auto 12px}
+.add-row{display:flex;gap:10px;flex-wrap:wrap;margin:0 auto 24px;max-width:620px;align-items:end}
+.add-row > div{flex:1;min-width:200px}
+.add-row .btn{white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:#fff;border:1px solid #f0d6df;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 24px #8d3c550a}
+.card-art{height:105px;display:grid;place-items:center;font-size:3rem;background:linear-gradient(135deg,#ffe2ea,#fff3e7)}
+.card-body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-body p{margin:0;color:var(--muted);font-size:.93rem}
+.card .btn{margin-top:auto;align-self:flex-start;padding:10px 16px;font-size:.9rem}
+.card.selected{outline:2px solid var(--pink);background:#fff8fa}
+.card.selected .btn{background:#87314e}
+.selection-summary{background:#fff5f8;border:1px dashed #e5a8bc;border-radius:16px;padding:15px;margin:20px 0}
+.footer{text-align:center;color:#a17b89;font-size:.83rem;padding:22px 0}
+.goodbye{text-align:center;padding:clamp(25px,7vw,70px)}
+.hidden{display:none!important}
+.notice{padding:12px 14px;border-radius:12px;background:#fff5e8;border:1px solid #f3d6aa;color:#76552b;font-size:.9rem}
+@media(max-width:520px){.nav{gap:6px}.nav button{padding:9px 12px;font-size:.85rem}.hero{min-height:70vh}.actions{gap:10px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-tab="home">Home 💌</button>
+    <button data-tab="foods">Foods 🍰</button>
+    <button data-tab="places">Places 🌷</button>
+    <button data-tab="goodbye">Good Bye 💗</button>
+  </nav>
+</header>
+<main>
+  <section class="panel active" id="home">
+    <div class="hero">
+      <div class="heart">💗</div>
+      <div class="kicker">A little surprise, made just for you</div>
+      <h1>Hey, Mine!</h1>
+      <h2 style="font-size:clamp(1.45rem,4vw,2.2rem)">Would you like to go on a date with me?</h2>
+      <p class="subtitle">Just you and me, making another beautiful memory together. You deserve a little romance, a little adventure, and all my love.</p>
+      <div class="actions">
+        <button class="btn" id="yesBtn">YES, MY LOVE! 💖</button>
+        <div class="no-wrap" id="noWrap"><button class="btn secondary" id="noBtn">No 🙈</button></div>
+      </div>
+      <p class="helper">P.S. Mine, I have something special planned for us…</p>
+      <p id="noMessage" class="helper" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="panel" id="date">
+    <div class="section-card">
+      <div class="section-head"><div class="kicker">First, let's pick our time</div><h2>Our little date 💞</h2><p class="subtitle" style="margin:auto">Choose a day and time that works for you, Mine.</p></div>
+      <div class="form-grid">
+        <div><label for="dateInput">Date</label><input type="date" id="dateInput" required></div>
+        <div><label for="timeInput">Time</label><input type="time" id="timeInput" required></div>
+      </div>
+      <div><label for="dateNote">Anything you'd like me to know? (optional)</label><input id="dateNote" maxlength="250" placeholder="e.g. Let's dress up a little ✨"></div>
+      <div class="actions"><button class="btn" id="dateDone">Done — let's choose food 🍓</button></div>
+    </div>
+  </section>
+
+  <section class="panel" id="foods">
+    <div class="section-card">
+      <div class="section-head"><div class="kicker">Something yummy</div><h2>What would you like to eat, Mine? 🍓</h2><p class="subtitle" style="margin:auto">Pick as many foods as you want, and add anything else you're craving.</p></div>
+      <div class="searchbar"><label for="foodSearch">Search foods</label><input id="foodSearch" type="search" placeholder="Search pizza, pasta, dessert…"></div>
+      <div class="add-row">
+        <div><label for="customFood">Add a food you want</label><input id="customFood" maxlength="60" placeholder="e.g. Sisig, mango float, fries…"></div>
+        <button class="btn" id="addFood" type="button">Add food ✨</button>
+      </div>
+      <div class="cards" id="foodCards"></div>
+      <div class="selection-summary"><strong>Your food choices:</strong> <span id="foodChoice">Nothing selected yet</span></div>
+      <div class="actions"><button class="btn secondary" id="backDate">← Back</button><button class="btn" id="foodDone">Done — let's choose places 🌷</button></div>
+    </div>
+  </section>
+
+  <section class="panel" id="places">
+    <div class="section-card">
+      <div class="section-head"><div class="kicker">Let's go somewhere lovely</div><h2>Where should we make memories? 🌅</h2><p class="subtitle" style="margin:auto">Choose one destination around Valencia City, Bukidnon. Picking a new place will replace the last one.</p></div>
+      <div class="cards" id="placeCards"></div>
+      <div class="selection-summary"><strong>Place picked:</strong> <span id="placeChoice">Nothing selected yet</span></div>
+      <div class="notice">These are suggested places, not confirmed reservations. Please check current opening hours, fees, and availability before your date.</div>
+      <div class="actions"><button class="btn secondary" id="backFoods">← Back</button><button class="btn" id="placeDone">Finish our date plan 💌</button></div>
+      <p class="helper" style="text-align:center">When you finish, your email app will open with the plan ready to send to Karl.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="goodbye">
+    <div class="section-card goodbye">
+      <div class="heart">🌹</div>
+      <div class="kicker">Until our date, my love</div>
+      <h1 style="font-size:clamp(2.3rem,7vw,4.4rem)">Thank you, Mine.</h1>
+      <p class="subtitle" style="margin:0 auto">No matter where we go or what we eat, my favorite part will always be spending time with you. I can't wait to make another memory together.</p>
+      <p style="font-size:1.2rem;color:var(--deep)">Always yours, with love. 💗</p>
+      <div class="actions"><button class="btn" id="closeBtn">Close this surprise 💕</button><button class="btn secondary" id="homeAgain">Back to Home</button></div>
+      <p class="helper" id="closeNote"></p>
+    </div>
+  </section>
+  <div class="footer">Made with love, just for Mine 💗</div>
+</main>
+<script>
+const recipient = "karlchristiantrabuco382@gmail.com";
+const state = {date:"", time:"", note:"", foods:[], place:null};
+const foodItems = [
+  {name:"Pizza",icon:"🍕",desc:"A cheesy favorite to share together."},
+  {name:"Pasta",icon:"🍝",desc:"A cozy meal for our little date."},
+  {name:"Burger & Fries",icon:"🍔",desc:"A delicious classic."},
+  {name:"Chicken Meal",icon:"🍗",desc:"Crispy, savory, and satisfying."},
+  {name:"Steak",icon:"🥩",desc:"A special-occasion dinner choice."},
+  {name:"Sushi",icon:"🍣",desc:"Something fresh and fun to try."},
+  {name:"Milk Tea",icon:"🧋",desc:"A sweet drink while we talk."},
+  {name:"Coffee & Cake",icon:"☕",desc:"A café date with a little dessert."},
+  {name:"Ice Cream",icon:"🍨",desc:"Because every date deserves a treat."},
+  {name:"Halo-Halo",icon:"🍧",desc:"A refreshing Filipino dessert."},
+  {name:"Filipino Food",icon:"🍲",desc:"Comfort food made for sharing."},
+  {name:"Surprise me!",icon:"🎁",desc:"You choose, Mine, and I'll be happy."}
+];
+const placeItems = [
+  {name:"Lake Apo",icon:"🏞️",type:"Nature & views",desc:"A scenic lake outing with photo opportunities."},
+  {name:"Mt. Anahawon Skypark",icon:"⛰️",type:"Mountain views",desc:"A mountain viewpoint and an adventure together."},
+  {name:"Lake View Cafe",icon:"☕",type:"Café idea",desc:"A café-style stop to enjoy a drink and the scenery; verify current operation first."},
+  {name:"Manna & Quail",icon:"🍰",type:"Café / restaurant idea",desc:"A cozy café-restaurant option; check hours and menu before visiting."},
+  {name:"Hilltop Camp Bar",icon:"🌃",type:"Evening outing idea",desc:"A possible evening stop for views and relaxing together; check current details."},
+  {name:"A café of your choice",icon:"🧋",type:"Flexible option",desc:"We can pick another café in Valencia together."},
+  {name:"A surprise place chosen by Karl",icon:"💝",type:"Surprise",desc:"Let me plan one special stop just for you, Mine."}
+];
+function showTab(tab){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===tab));
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+document.getElementById("yesBtn").addEventListener("click",()=>showTab("date"));
+const noBtn=document.getElementById("noBtn");
+let noMoving=false;
+function dodge(event){
+  if(event) event.preventDefault();
+  if(noMoving) return;
+  noMoving=true;
+  const rect=noBtn.getBoundingClientRect();
+  const pad=12;
+  const maxX=Math.max(pad,window.innerWidth-rect.width-pad);
+  const maxY=Math.max(90,window.innerHeight-rect.height-pad);
+  let x,y,tries=0;
+  do{
+    x=pad+Math.random()*(maxX-pad);
+    y=90+Math.random()*Math.max(1,maxY-90);
+    tries++;
+  }while(tries<10 && Math.hypot(x-rect.left,y-rect.top)<180);
+  document.body.appendChild(noBtn);
+  noBtn.classList.add("runaway");
+  noBtn.style.pointerEvents="none";
+  noBtn.style.transition="none";
+  noBtn.style.left=rect.left+"px";
+  noBtn.style.top=rect.top+"px";
+  noBtn.getBoundingClientRect();
+  requestAnimationFrame(()=>{
+    noBtn.style.transition="left .4s cubic-bezier(.22,.75,.28,1), top .4s cubic-bezier(.22,.75,.28,1)";
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+  });
+  document.getElementById("noMessage").textContent="Hehe, try again, Mine! 🙈💗";
+  setTimeout(()=>{
+    noMoving=false;
+    noBtn.style.pointerEvents="";
+  },420);
+}
+noBtn.addEventListener("pointerenter",dodge);
+noBtn.addEventListener("pointerdown",dodge);
+noBtn.addEventListener("click",dodge);
+document.getElementById("dateInput").min=new Date().toLocaleDateString("en-CA");
+document.getElementById("dateDone").addEventListener("click",()=>{
+  const date=document.getElementById("dateInput").value;
+  const time=document.getElementById("timeInput").value;
+  if(!date||!time){alert("Choose a date and time first, Mine 💗");return}
+  state.date=date;state.time=time;state.note=document.getElementById("dateNote").value.trim();
+  showTab("foods");
+});
+function escapeHtml(text){
+  return String(text).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+function updateFoodChoice(){
+  document.getElementById("foodChoice").textContent=state.foods.length?state.foods.join(", "):"Nothing selected yet";
+}
+function toggleFood(name){
+  if(state.foods.includes(name)) state.foods=state.foods.filter(n=>n!==name);
+  else state.foods.push(name);
+  renderFoods(document.getElementById("foodSearch").value);
+  updateFoodChoice();
+}
+function renderFoods(filter=""){
+ const root=document.getElementById("foodCards");root.innerHTML="";
+ foodItems.filter(x=>x.name.toLowerCase().includes(filter.toLowerCase())).forEach(item=>{
+  const selected=state.foods.includes(item.name);
+  const card=document.createElement("article");card.className="card"+(selected?" selected":"");
+  card.innerHTML=`<div class="card-art">${item.icon}</div><div class="card-body"><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.desc)}</p><button class="btn ${selected?"":"secondary"}">${selected?"Selected ✓":"Choose this"}</button></div>`;
+  card.querySelector("button").addEventListener("click",()=>toggleFood(item.name));
+  root.appendChild(card);
+ });
+}
+function addCustomFood(){
+  const input=document.getElementById("customFood");
+  const name=input.value.trim();
+  if(!name){alert("Type a food you want to add, Mine 🍓");return}
+  const existing=foodItems.find(x=>x.name.toLowerCase()===name.toLowerCase());
+  const foodName=existing?existing.name:name;
+  if(!existing) foodItems.push({name:foodName,icon:"✨",desc:"A special request from Mine."});
+  if(!state.foods.includes(foodName)) state.foods.push(foodName);
+  input.value="";
+  renderFoods(document.getElementById("foodSearch").value);
+  updateFoodChoice();
+}
+document.getElementById("foodSearch").addEventListener("input",e=>renderFoods(e.target.value));
+document.getElementById("addFood").addEventListener("click",addCustomFood);
+document.getElementById("customFood").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addCustomFood()}});
+function renderPlaces(){
+ const root=document.getElementById("placeCards");root.innerHTML="";
+ placeItems.forEach(item=>{
+  const selected=state.place===item.name;
+  const card=document.createElement("article");card.className="card"+(selected?" selected":"");
+  card.innerHTML=`<div class="card-art">${item.icon}</div><div class="card-body"><span class="kicker">${item.type}</span><h3>${item.name}</h3><p>${item.desc}</p><button class="btn ${selected?"":"secondary"}">${selected?"Selected ✓":"Choose place"}</button></div>`;
+  card.querySelector("button").addEventListener("click",()=>{state.place=item.name;renderPlaces();document.getElementById("placeChoice").textContent=state.place});
+  root.appendChild(card);
+ });
+}
+document.getElementById("foodDone").addEventListener("click",()=>{if(!state.foods.length){alert("Choose at least one yummy food first, Mine 🍓");return}showTab("places")});
+document.getElementById("backDate").addEventListener("click",()=>showTab("date"));
+document.getElementById("backFoods").addEventListener("click",()=>showTab("foods"));
+document.getElementById("placeDone").addEventListener("click",()=>{
+ if(!state.place){alert("Choose one place for our date, Mine 🌷");return}
+ const dateText=new Date(state.date+"T00:00:00").toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+ const body=[
+  "A date plan from Mine 💗",
+  "",
+  "Date: "+dateText,
+  "Time: "+state.time,
+  "Food choices: "+state.foods.join(", "),
+  "Place: "+state.place,
+  "Extra note: "+(state.note||"None"),
+  "",
+  "I can't wait to spend time with you. ❤️"
+ ].join("\n");
+ const subject=encodeURIComponent("Our Date Plan 💗");
+ const mailto="mailto:"+recipient+"?subject="+subject+"&body="+encodeURIComponent(body);
+ showTab("goodbye");
+ window.location.href=mailto;
+});
+document.getElementById("closeBtn").addEventListener("click",()=>{
+ window.close();
+ document.getElementById("closeNote").textContent="If this tab stayed open, your browser doesn't allow websites to close tabs opened normally. You can close it using your browser's tab ✕. Sending you love, Mine! 💗";
+});
+document.getElementById("homeAgain").addEventListener("click",()=>showTab("home"));
+renderFoods();renderPlaces();
+</script>
+</body>
+</html>
